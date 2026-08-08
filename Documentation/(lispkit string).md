@@ -61,8 +61,13 @@ The `string-ref` procedure returns character _k_ of string _str_ using zero-orig
 The `string-set!` procedure stores _char_ in element _k_ of string _str_. It is an error if _k_ is not a valid index of string _str_.
 
 **(string-length _str_)** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[procedure]</span>  
+**(string-length _str chars?_)**  
 
-Returns the number of characters in the given string _str_.
+Returns the number of characters in the given string _str_. By default (or if _chars?_ is `#f`), the result is the number of UTF-16 code units, matching the indices used by `string-ref` and `string-set!`. If _chars?_ is set to `#t`, `string-length` instead returns the number of Unicode extended grapheme clusters (i.e. "perceived characters") in _str_, which may be lower than the UTF-16-based length for strings containing characters outside the basic multilingual plane or composed of multiple Unicode scalar values (e.g. emoji, accented characters).
+
+**(string-display-width _str_)** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[procedure]</span>  
+
+Returns the width of string _str_ in terms of the number of columns it would occupy when being displayed on a monospaced terminal. Unlike `string-length`, `string-display-width` accounts for characters that occupy more than one column, such as East Asian wide characters and many emoji.
 
 ## Predicates
 
@@ -83,9 +88,7 @@ Returns `#t` if all the strings have the same length and contain exactly the sam
 **(string\<=? _str ..._)**  
 **(string\>=? _str ..._)**  
 
-These procedures return `#t` if their arguments are (respectively): monotonically increasing, monotonically decreasing, monotonically non-decreasing, or monotonically non-increasing. These predicates are transitive.
-
-These procedures compare strings in a lexicographic fashion; i.e. `string<?` implements a the lexicographic ordering on strings induced by the ordering `char<?` on characters. If two strings differ in length but are the same up to the length of the shorter string, the shorter string would be considered to be lexicographically less than the longer string.
+These procedures return `#t` if their arguments are (respectively): monotonically increasing, monotonically decreasing, monotonically non-decreasing, or monotonically non-increasing. These predicates are transitive. They compare strings in a lexicographic fashion; i.e. `string<?` implements a the lexicographic ordering on strings induced by the ordering `char<?` on characters. If two strings differ in length but are the same up to the length of the shorter string, the shorter string would be considered to be lexicographically less than the longer string.
 
 A pair of strings satisfies exactly one of `string<?`, `string=?`, and `string>?`. A pair of strings satisfies `string<=?` if and only if they do not satisfy `string>?`. A pair of strings satisfies `string>=?` if and only if they do not satisfy `string<?`.
 

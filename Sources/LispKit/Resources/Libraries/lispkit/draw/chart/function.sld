@@ -144,7 +144,9 @@
       (line-lengths function-graph-line-lengths))
 
     ;; Constructor with convenient argument order.
-    ;; (func proc) | (func proc label) | (func proc label color)
+    ;;     (function-graph proc)
+    ;;   | (function-graph proc label)
+    ;;   | (function-graph proc label color)
     (define (function-graph proc . args)
       (let-optionals args ((label #f)
                            (col blue)

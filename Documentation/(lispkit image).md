@@ -29,6 +29,7 @@ Returns a list of available Core Image filter categories. If _raw?_ is `#t`, ret
 ```scheme
 (available-image-filter-categories)
 ⇒  (non-square-pixels composite-operation tile-effect interlaced color-adjustment reduction generator blur gradient transition sharpen builtin high-dynamic-range stylize filter-generator still-image halftone-effect video geometry-adjustment distortion-effect color-effect)
+
 (available-image-filter-categories #t)
 ⇒  ("CICategoryFilterGenerator" "CICategoryHighDynamicRange" "CICategoryHalftoneEffect" "CICategoryNonSquarePixels" "CICategoryStylize" "CICategoryColorAdjustment" "CICategoryStillImage" "CICategoryGenerator" "CICategorySharpen" "CICategoryTransition" "CICategoryGeometryAdjustment" "CICategoryDistortionEffect" "CICategoryGradient" "CICategoryBuiltIn" "CICategoryInterlaced" "CICategoryVideo" "CICategoryCompositeOperation" "CICategoryReduction" "CICategoryTileEffect" "CICategoryColorEffect" "CICategoryBlur")
 ```
@@ -52,8 +53,9 @@ _category_ is either a string or a symbol. `image-filter-category` returns a sym
 Returns a list of available image filter implementations in the given filter _categories_. _categories_ is a list of Core Image filter category identifiers. A category identifier is either a symbol or a string. Use boolean argument _raw?_ to get internal Core Image filter implementation names instead of symbolic identifiers.
 
 ```scheme
-➤(available-image-filter-implementations '(reduction))
+(available-image-filter-implementations '(reduction))
 ⇒  (area-alpha-weighted-histogram area-average area-average-maximum-red area-bounds-red area-histogram area-logarithmic-histogram area-maximum area-maximum-alpha area-minimum area-minimum-alpha area-min-max area-min-max-red column-average histogram-display-filter kmeans row-average)
+
 (available-image-filter-implementations '(reduction high-dynamic-range) #t)
 ⇒  ("CIAreaAverage" "CIAreaAverageMaximumRed" "CIAreaBoundsRed" "CIAreaLogarithmicHistogram" "CIAreaMaximum" "CIAreaMaximumAlpha" "CIAreaMinimum" "CIAreaMinimumAlpha" "CIAreaMinMax" "CIAreaMinMaxRed" "CIColumnAverage" "CIKMeans" "CIRowAverage")
 ```
@@ -247,7 +249,7 @@ Interprets the first two coefficient values `x` and `y` as a point, returning `(
 
 **(image-coefficients->rect _coeffs_)** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[procedure]</span>  
 
-Interprets the first four coefficient values `x`, `y`, `width`, and `hight` as a rectangle, returning `((x . y) . (width . height))`. Returns `#f` if fewer than four coefficients are available.
+Interprets the first four coefficient values `x`, `y`, `width`, and `height` as a rectangle, returning `((x . y) . (width . height))`. Returns `#f` if fewer than four coefficients are available.
 
 ```scheme
 (define r (rect '(1 . 2) '(3 . 4)))
@@ -258,7 +260,7 @@ c  ⇒  #<image-coefficients 98c847f60 4:  1.0,  2.0,  3.0,  4.0>
 ⇒  ((1.0 . 2.0) 3.0 . 4.0)
 ```
 
-## Image Processing Pipeline
+## Image Processing Pipelines
 
 **(apply-image-filter _aimage filter ..._)** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[procedure]</span>  
 

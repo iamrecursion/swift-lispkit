@@ -43,7 +43,7 @@ Library `(lispkit char-set)` supports both mutable as well as immutable characte
 
 Library `(lispkit char-set)` predefines these frequently used immutable character sets.
 
-Note that there may be characters in `char-set:letter` that are neither upper or lower case. The `char-set:whitespaces` character set contains whitespace and newline characters. `char-set:blanks` only contains whitespace (i.e. "blank") characters. `char-set:newlines` only contains newline characters.
+Note that there may be characters in `char-set:letter` that are neither upper nor lower case. The `char-set:whitespaces` character set contains whitespace and newline characters. `char-set:blanks` only contains whitespace (i.e. "blank") characters. `char-set:newlines` only contains newline characters.
 
 **char-set-type-tag** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[object]</span>  
 
@@ -255,8 +255,8 @@ A cursor value may not be used in conjunction with a different character set; if
 ;; Equivalently, using a list unfold (from SRFI 1):
 (unfold-right end-of-char-set? 
               (curry char-set-ref cs)
-	          (curry char-set-cursor-next cs)
-	          (char-set-cursor cs))
+            (curry char-set-cursor-next cs)
+            (char-set-cursor cs))
   ⇒  (#\G #\T #\a #\c #\e #\h)
 ```
 

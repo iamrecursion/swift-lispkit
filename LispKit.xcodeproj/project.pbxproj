@@ -4060,6 +4060,7 @@
 		CCF982F61D998B8A00B22A1D /* ImportSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSet.swift; sourceTree = "<group>"; };
 		CCFB412A25B25316005B2429 /* ZipArchiveLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchiveLibrary.swift; sourceTree = "<group>"; };
 		CCFBE5C31ECBA8DA0032254B /* Pi.scm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Pi.scm; sourceTree = "<group>"; };
+		CCFD8C77300254D3002640DE /* (lispkit draw chart function).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit draw chart function).md"; sourceTree = "<group>"; };
 		CCFFD5802D4C53310092150E /* Billboard.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Billboard.jpg; sourceTree = "<group>"; };
 		CCFFD5812D4C53510092150E /* Inga.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Inga.jpg; sourceTree = "<group>"; };
 		CCFFD5862D4C5F4A0092150E /* ImageComposition.scm */ = {isa = PBXFileReference; lastKnownFileType = text; path = ImageComposition.scm; sourceTree = "<group>"; };
@@ -4678,6 +4679,7 @@
 				CC6F36862EEF7F6200666DE2 /* (lispkit disjoint-set).md */,
 				CC6F36872EEF7F6200666DE2 /* (lispkit draw barcode).md */,
 				CC6F36882EEF7F6200666DE2 /* (lispkit draw chart bar).md */,
+				CCFD8C77300254D3002640DE /* (lispkit draw chart function).md */,
 				CC6F36892EEF7F6200666DE2 /* (lispkit draw map).md */,
 				CC6F368A2EEF7F6200666DE2 /* (lispkit draw turtle).md */,
 				CC6F368B2EEF7F6200666DE2 /* (lispkit draw web).md */,
