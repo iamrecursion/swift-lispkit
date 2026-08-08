@@ -5752,7 +5752,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2660;
 				ORGANIZATIONNAME = ObjectHub;
 				TargetAttributes = {
 					CC3B64262386025500807476 = {
@@ -6955,8 +6955,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/objecthub/swift-markdownkit.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.1;
+				branch = master;
+				kind = branch;
 			};
 		};
 		CCCCEC862C504AF400509902 /* XCRemoteSwiftPackageReference "swift-nanohttp" */ = {
