@@ -1,8 +1,16 @@
 # Changelog
 
-## 2.6.2 (?)
+## 2.6.2 (2026-08-08)
 
-- TBD
+- New library for drawing function charts: `(lispkit draw chart function)`
+- Support for turning Markdown into a textual representation to be displayed on ANSI terminals via library `(lispkit markdown)`; new procedures `markdown->string` and `markdown->styled-text`
+- Support aligning/padding based on display width in library `(lispkit format)` with procedures `format-config-align-display` and `format-config-align-display-set!`
+- New procedure `string-display-width` in library `(lispkit string)`
+- New procedures `device-battery-level` and `device-battery-state` in library `(lispkit system)`
+- Fixed behavior of procedure `string->number` to return `#f` instead of raising an error for input that cannot be parsed as a number
+- New sample code: `DrawFunctionCharts.scm`, `Connect4.scm`, `AnsiMarkdown.scm`
+- Increased minimum platform requirements to macOS 14.6 and iOS 17.6
+- Completed and updated library documentation
 
 ## 2.6.1 (2026-04-26)
 
