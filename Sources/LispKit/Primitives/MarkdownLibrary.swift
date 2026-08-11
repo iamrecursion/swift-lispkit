@@ -174,6 +174,8 @@ public final class MarkdownLibrary: NativeLibrary {
     self.define(Procedure("text->sxml", textToSxml))
     self.define(Procedure("text->string", textToString))
     self.define(Procedure("text->raw-string", textToRawString))
+    self.define(Procedure("syntax-highlighting-theme", syntaxHighlightingTheme))
+    self.define(Procedure("syntax-highlighting-themes", syntaxHighlightingThemes))
   }
   
   private func makeCase(_ type: Expr, _ sym: Symbol, _ exprs: Expr...) -> Expr {
@@ -1896,6 +1898,33 @@ public final class MarkdownLibrary: NativeLibrary {
   private func externMarkdown(_ str: String?) -> Expr {
     if let str = str {
       return .makeString(str)
+    } else {
+      return .false
+    }
+  }
+  
+  private func syntaxHighlightingTheme(expr: Expr) throws -> Expr {
+    let nameOrContent = try expr.asString()
+    // Try to load the theme
+    if let highlighter = MarkdownLibrary.syntaxHighlighter ?? SyntaxHighlighter.proxy,
+       let themeDirectoryURL = highlighter.themeDirectoryURL {
+      let themeURL = themeDirectoryURL.appendingPathComponent(nameOrContent)
+                                      .appendingPathExtension("css")
+      if let content = try? String(contentsOf: themeURL) {
+        return .makeString(content)
+      }
+    }
+    // If we couldn't load a theme file, check if the input itself is valid CSS
+    return SyntaxHighlighter.isValidCSS(nameOrContent) ? expr : .false
+  }
+  
+  private func syntaxHighlightingThemes() -> Expr {
+    if let highlighter = MarkdownLibrary.syntaxHighlighter ?? SyntaxHighlighter.proxy {
+      var res = Expr.null
+      for theme in highlighter.availableThemes {
+        res = .pair(.makeString(theme), res)
+      }
+      return res
     } else {
       return .false
     }
