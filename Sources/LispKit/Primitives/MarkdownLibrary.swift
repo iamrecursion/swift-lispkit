@@ -66,6 +66,9 @@ public final class MarkdownLibrary: NativeLibrary {
   private let right: Symbol
   private let center: Symbol
   
+  /// Support a custom `SyntaxHighlighter`
+  public static var syntaxHighlighter: SyntaxHighlighter? = nil
+  
   /// Initialize symbols
   public required init(in context: Context) throws {
     self.blockType = .pair(.symbol(self.blockTypeTag), .null)
@@ -1065,7 +1068,8 @@ public final class MarkdownLibrary: NativeLibrary {
              defDescrProperties: defDescrProperties,
              blockquoteProperties: blockquoteProperties,
              breakProperties: breakProperties,
-             syntaxHighlighting: syntaxHighlighting)
+             syntaxHighlighting: syntaxHighlighting,
+             syntaxHighlighter: MarkdownLibrary.syntaxHighlighter)
   }
   
   private func markdownToString(_ md: Expr, _ width: Expr?, _ ansi: Expr?) throws -> Expr {
@@ -1080,7 +1084,9 @@ public final class MarkdownLibrary: NativeLibrary {
     }
     if let ansi, ansi.isTrue {
       if case .true = ansi {
-        return .makeString(TerminalGenerator(numColumns: maxCols).generate(doc: md).encodedString)
+        return .makeString(TerminalGenerator(numColumns: maxCols,
+                                             syntaxHighlighter: MarkdownLibrary.syntaxHighlighter)
+                             .generate(doc: md).encodedString)
       } else {
         let generator = try self.terminalGenerator(numColumns: maxCols, ansi: ansi)
         return .makeString(generator.generate(doc: md).encodedString)
@@ -1209,7 +1215,8 @@ public final class MarkdownLibrary: NativeLibrary {
           theme: theme ?? hl.theme,
           ignoreSyntacticIssues: ignoreSyntacticIssues ?? hl.ignoreSyntacticIssues,
           ignoredLanguages: ignoredLanguages ?? hl.ignoredLanguages,
-          highlightIndentedCodeBlocks: highlightIndentedCodeBlocks ?? hl.highlightIndentedCodeBlocks)
+          highlightIndentedCodeBlocks: highlightIndentedCodeBlocks ??
+                                       hl.highlightIndentedCodeBlocks)
       }
     }
     return AttributedStringGenerator(fontSize: fontSize,
@@ -1222,6 +1229,7 @@ public final class MarkdownLibrary: NativeLibrary {
                                      codeBlockFontColor: codeBlockFontColor,
                                      codeBlockBackground: codeBlockBackground,
                                      syntaxHighlighting: syntaxHighlighting,
+                                     syntaxHighlighter: MarkdownLibrary.syntaxHighlighter,
                                      borderColor: borderColor,
                                      blockquoteColor: blockquoteColor,
                                      h1Color: h1Color,
