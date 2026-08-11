@@ -69,6 +69,12 @@ public final class MarkdownLibrary: NativeLibrary {
   /// Support a custom `SyntaxHighlighter`
   public static var syntaxHighlighter: SyntaxHighlighter? = nil
   
+  /// Configure the syntax highlighter
+  public static func configure(highlightJSURL: URL, themeDirectory: URL? = nil) {
+    MarkdownLibrary.syntaxHighlighter = SyntaxHighlighter(highlightJSURL: highlightJSURL,
+                                                          themeDirectory: themeDirectory)
+  }
+  
   /// Initialize symbols
   public required init(in context: Context) throws {
     self.blockType = .pair(.symbol(self.blockTypeTag), .null)
