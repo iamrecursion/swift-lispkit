@@ -104,7 +104,9 @@ _LispKit_ provides support for the following core features, many of which are ba
     [`(lispkit draw turtle)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Draw-Turtle),
     [`(lispkit draw barcode)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Draw-Barcode),
     [`(lispkit draw map)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Draw-Map),
+    `(lispkit draw chart)`,
     [`(lispkit draw chart bar)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Draw-Chart-Bar),
+    `(lispkit draw chart function)`,
     [`(lispkit image)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Image),
     [`(lispkit image process)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Image-Process),
     [`(lispkit vision)`](https://github.com/objecthub/swift-lispkit/wiki/LispKit-Vision),
@@ -392,7 +394,7 @@ command-line tool, all that is needed is the Swift Package Manager. For compilin
 the command-line tool directly in Xcode, the Swift Package Manager is not needed.
 
 - [Swift 6](https://developer.apple.com/swift/)
-- [Xcode 16](https://developer.apple.com/xcode/)
+- [Xcode 26](https://developer.apple.com/xcode/)
 - [Swift Package Manager](https://swift.org/package-manager/)
 - [NumberKit](http://github.com/objecthub/swift-numberkit)
 - [MarkdownKit](http://github.com/objecthub/swift-markdownkit)
@@ -412,4 +414,4 @@ the command-line tool directly in Xcode, the Swift Package Manager is not needed
 ## Copyright
 
 Author: Matthias Zenger (<matthias@objecthub.com>)  
-Copyright © 2016-2025 Matthias Zenger. All rights reserved.
+Copyright © 2016-2026 Matthias Zenger. All rights reserved.

@@ -14,7 +14,7 @@ Takes a function with two parameters and returns an equivalent function where th
 
 ```scheme
 (define snoc (flip cons))
-(snoc (snoc (snoc '() 3) 2) 1)  ⟹  (1 2 3)
+(snoc (snoc (snoc '() 3) 2) 1)  ⇒  (1 2 3)
 ```
 
 **(negate _f_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -23,7 +23,7 @@ Returns a function which invokes `f` and returns the logical negation.
 
 ```scheme
 (define gvector-has-elements? (negate gvector-empty?))
-(gvector-has-elements? #g(1 2 3))  ⟹  #t
+(gvector-has-elements? #g(1 2 3))  ⇒  #t
 ```
 
 **(partial f _arg ..._)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -71,9 +71,9 @@ Returns a function which applies the functions `f` ... each individually to its 
 Special form `cut` transforms an expression _(f arg ...)_ into a lambda expression with as many formal variables as there are slots `<>` in the expression _(f arg ...)_. The body of the resulting lambda expression calls procedure _f_ with arguments _arg ..._ in the order they appear. In case there is a rest symbol `<...>` at the end, the resulting procedure is of variable arity, and the body calls _f_ with all arguments provided to the actual call of the specialized procedure.
 
 ```scheme
-(cut cons (+ a 1) <>)   ⟹  (lambda (x2) (cons (+ a 1) x2))
-(cut list 1 <> 3 <> 5)  ⟹  (lambda (x2 x4) (list 1 x2 3 x4 5))
-(cut list 1 <> 3 <...>) ⟹  (lambda (x2 . xs) (apply list 1 x2 3 xs))
+(cut cons (+ a 1) <>)   ⇒  (lambda (x2) (cons (+ a 1) x2))
+(cut list 1 <> 3 <> 5)  ⇒  (lambda (x2 x4) (list 1 x2 3 x4 5))
+(cut list 1 <> 3 <...>) ⇒  (lambda (x2 . xs) (apply list 1 x2 3 xs))
 ```
 
 **(cute _f_)** <span style="float:right;text-align:rigth;">[syntax]</span>  
@@ -85,7 +85,7 @@ Special form `cute` is similar to `cut`, except that it first binds new variable
 
 ```scheme
 (cute cons (+ a 1) <>)
-⟹  (let ((a1 (+ a 1))) (lambda (x2) (cons a1 x2)))
+⇒  (let ((a1 (+ a 1))) (lambda (x2) (cons a1 x2)))
 ```
 
 **(Y _f_)** <span style="float:right;text-align:rigth;">[procedure]</span>  

@@ -13,7 +13,7 @@ Library `(lispkit iterate)` defines syntactical forms supporting frequently used
 ```scheme
 (let ((res 0))
   (dotimes (i 10 res)
-    (set! res (+ res i))))  ⟹  45
+    (set! res (+ res i))))  ⇒  45
 ```
 
 **(dolist (_var lst_) _body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -26,7 +26,7 @@ Library `(lispkit iterate)` defines syntactical forms supporting frequently used
 ```scheme
 (let ((res ""))
   (dolist (x '("a" "b" "c") res)
-    (set! res (string-append res x))))  ⟹  "abc"
+    (set! res (string-append res x))))  ⇒  "abc"
 ```
 
 **(loop _break body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -38,7 +38,7 @@ Library `(lispkit iterate)` defines syntactical forms supporting frequently used
   (loop break
     (if (> i 100)
         (break i)
-        (set! i (* i 2)))))  ⟹  128
+        (set! i (* i 2)))))  ⇒  128
 ```
 
 **(while _condition body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -52,7 +52,7 @@ Library `(lispkit iterate)` defines syntactical forms supporting frequently used
     (if (> i 10) (exit))
     (set! sum (+ sum i))
     (set! i (fx1+ i)))
-  (cons i sum))  ⟹  (11 . 55)
+  (cons i sum))  ⇒  (11 . 55)
 ```
 
 **(for _var_ from _lo_ to _hi body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -66,7 +66,7 @@ When this `for` form is being executed, first _lo_ and _hi_ are evaluated. Both 
 (let ((res '()))
   (for x from 1 to 16 step 2
     (set! res (cons x res)))
-  res)  ⟹  (15 13 11 9 7 5 3 1)
+  res)  ⇒  (15 13 11 9 7 5 3 1)
 ```
 
 **(for _var_ in _lst body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -81,7 +81,7 @@ When this `for` form is being executed, first _lst_ or _(x ...)_ is evaluated. T
 (let ((res '()))
   (for x in (iota 16) where (odd? x)
     (set! res (cons x res)))
-  res)  ⟹  (15 13 11 9 7 5 3 1)
+  res)  ⇒  (15 13 11 9 7 5 3 1)
 ```
 
 **(exit-with _break body ..._)** <span style="float:right;text-align:rigth;">[syntax]</span>   
@@ -93,5 +93,5 @@ When this `for` form is being executed, first _lst_ or _(x ...)_ is evaluated. T
 (exit-with break
   (display "hello")
   (break #f)
-  (display "world"))  ⟹  #f  ; printing "hello"
+  (display "world"))  ⇒  #f  ; printing "hello"
 ```

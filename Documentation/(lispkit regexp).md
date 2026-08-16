@@ -129,7 +129,7 @@ Returns a regular expression pattern string by adding backslash escapes to patte
 
 ```scheme
 (escape-regexp-pattern "(home/objecthub)")
-⟹ "\\(home\\/objecthub\\)"
+⇒ "\\(home\\/objecthub\\)"
 ```
 
 **(escape-regexp-template _str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -148,11 +148,11 @@ A _matching spec_ returned by `regexp-matches` consists of pairs of fixnum posit
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-matches email "matthias@objecthub.net")
-⟹ ((0 . 22))
+⇒ ((0 . 22))
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-matches series "Season 3  Episode 12")
-⟹ ((0 . 20) (7 . 8) (18 . 20))
+⇒ ((0 . 20) (7 . 8) (18 . 20))
 ```
 
 **(regexp-matches? _regexp str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -173,11 +173,11 @@ A _matching spec_ returned by `regexp-search` consists of pairs of fixnum positi
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-search email "Contact matthias@objecthub.net or foo@bar.org")
-⟹ ((8 . 30))
+⇒ ((8 . 30))
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-search series "New Season 3 Episode 12: Pilot")
-⟹ ((4 . 23) (11 . 12) (21 . 23))
+⇒ ((4 . 23) (11 . 12) (21 . 23))
 ```
 
 **(regexp-search-all _regexp str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -192,11 +192,11 @@ A _matching spec_ returned by `regexp-search` consists of pairs of fixnum positi
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-search-all email "Contact matthias@objecthub.net or foo@bar.org")
-⟹ (((8 . 30)) ((34 . 45)))
+⇒ (((8 . 30)) ((34 . 45)))
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-search-all series "New Season 3 Episode 12: Pilot")
-⟹ (((4 . 23) (11 . 12) (21 . 23)))
+⇒ (((4 . 23) (11 . 12) (21 . 23)))
 ```
 
 **(regexp-extract _regexp str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -209,11 +209,11 @@ Returns a list of substrings from _str_ which all represent full matches of the 
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-extract email "Contact matthias@objecthub.net or foo@bar.org" 10)
-⟹ ("tthias@objecthub.net" "foo@bar.org")
+⇒ ("tthias@objecthub.net" "foo@bar.org")
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-extract series "New Season 3 Episode 12: Pilot")
-⟹ ("Season 3 Episode 12")
+⇒ ("Season 3 Episode 12")
 ```
 
 **(regexp-split _regexp str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -226,11 +226,11 @@ Splits string _str_ into a list of possibly empty substrings separated by non-em
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-split email "Contact matthias@objecthub.net or foo@bar.org" 10)
-⟹ ("Contact ma" " or " "")
+⇒ ("Contact ma" " or " "")
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-split series "New Season 3 Episode 12: Pilot")
-⟹ ("New " ": Pilot")
+⇒ ("New " ": Pilot")
 ```
 
 **(regexp-partition _regexp str_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -243,11 +243,11 @@ Partitions string _str_ into a list of non-empty strings matching regular expres
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-partition email "Contact matthias@objecthub.net or foo@bar.org" 10)
-⟹ ("Contact ma" "tthias@objecthub.net" " or " "foo@bar.org" "")
+⇒ ("Contact ma" "tthias@objecthub.net" " or " "foo@bar.org" "")
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-partition series "New Season 3 Episode 12: Pilot")
-⟹ ("New " "Season 3 Episode 12" ": Pilot")
+⇒ ("New " "Season 3 Episode 12" ": Pilot")
 ```
 
 **(regexp-replace _regexp str subst_)** <span style="float:right;text-align:rigth;">[procedure]</span>   
@@ -262,11 +262,11 @@ The optional parameters _start_ and _end_ restrict both the matching and the sub
 (define email
   (regexp "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
 (regexp-replace email "Contact matthias@objecthub.net or foo@bar.org" "<omitted>" 10)
-⟹ "Contact ma<omitted> or <omitted>"
+⇒ "Contact ma<omitted> or <omitted>"
 (define series
   (regexp "Season\\s+(\\d+)\\s+Episode\\s+(\\d+)"))
 (regexp-replace series "New Season 3 Episode 12: Pilot" "Series")
-⟹ "New Series: Pilot"
+⇒ "New Series: Pilot"
 ```
 
 **(regexp-replace! _regexp str subst_)** <span style="float:right;text-align:rigth;">[procedure]</span>  
@@ -299,5 +299,5 @@ str ⇒ "Contact ma<omitted> or <omitted>"
                  (if (zero? i) s (string-append acc "-" s))))
              ""
              "to  be  or  not  to  be")
-⟹ "to-be-or-not-to-be"
+⇒ "to-be-or-not-to-be"
 ```

@@ -3817,6 +3817,11 @@
 		CC9ED3FE2710E7CB004B1E29 /* simplifier.sld */ = {isa = PBXFileReference; lastKnownFileType = text; path = simplifier.sld; sourceTree = "<group>"; };
 		CC9ED3FF2710E926004B1E29 /* Simplifier.scm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Simplifier.scm; sourceTree = "<group>"; };
 		CC9FF30B2E2E926E00D4C445 /* Pinterest.scm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pinterest.scm; sourceTree = "<group>"; };
+		CCA09F7F30319A0D00636D8C /* (lispkit draw chart).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit draw chart).md"; sourceTree = "<group>"; };
+		CCA09F813031B5E700636D8C /* (lispkit sxml html).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit sxml html).md"; sourceTree = "<group>"; };
+		CCA09F823031B5E700636D8C /* (lispkit sxml xml).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit sxml xml).md"; sourceTree = "<group>"; };
+		CCA09F833031B5E700636D8C /* (lispkit sxml).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit sxml).md"; sourceTree = "<group>"; };
+		CCA09F843031B5E700636D8C /* (lispkit wt-tree).md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "(lispkit wt-tree).md"; sourceTree = "<group>"; };
 		CCA3127C204CB74A0026FF13 /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
 		CCA3127E204CB7900026FF13 /* LexicalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexicalError.swift; sourceTree = "<group>"; };
 		CCA31280204CB7A60026FF13 /* SyntaxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxError.swift; sourceTree = "<group>"; };
@@ -4678,6 +4683,7 @@
 				CC6F36852EEF7F6200666DE2 /* (lispkit debug).md */,
 				CC6F36862EEF7F6200666DE2 /* (lispkit disjoint-set).md */,
 				CC6F36872EEF7F6200666DE2 /* (lispkit draw barcode).md */,
+				CCA09F7F30319A0D00636D8C /* (lispkit draw chart).md */,
 				CC6F36882EEF7F6200666DE2 /* (lispkit draw chart bar).md */,
 				CCFD8C77300254D3002640DE /* (lispkit draw chart function).md */,
 				CC6F36892EEF7F6200666DE2 /* (lispkit draw map).md */,
@@ -4723,6 +4729,9 @@
 				CC6F36B22EEF7F6200666DE2 /* (lispkit stream).md */,
 				CC6F36B32EEF7F6200666DE2 /* (lispkit string).md */,
 				CC6F36B42EEF7F6200666DE2 /* (lispkit styled-text).md */,
+				CCA09F833031B5E700636D8C /* (lispkit sxml).md */,
+				CCA09F813031B5E700636D8C /* (lispkit sxml html).md */,
+				CCA09F823031B5E700636D8C /* (lispkit sxml xml).md */,
 				CC6F36B52EEF7F6200666DE2 /* (lispkit system call).md */,
 				CC6F36B62EEF7F6200666DE2 /* (lispkit system keychain).md */,
 				CC6F36B72EEF7F6200666DE2 /* (lispkit system pasteboard).md */,
@@ -4737,6 +4746,7 @@
 				CC6F36C02EEF7F6200666DE2 /* (lispkit url).md */,
 				CC6F36C12EEF7F6200666DE2 /* (lispkit vector).md */,
 				CC6F36C22EEF7F6200666DE2 /* (lispkit vision).md */,
+				CCA09F843031B5E700636D8C /* (lispkit wt-tree).md */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
