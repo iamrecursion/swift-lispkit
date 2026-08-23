@@ -406,7 +406,7 @@
                                  (add-method! obj method
                                    (lambda (self arg ... . rest) e1 e2 ...))
                                  ... ))))))
-              (define (pred? x) (subclass? (object-class obj) name))))))
+              (define (pred? x) (subclass? (object-class x) name))))))
 
     ;;; Utilities
 
