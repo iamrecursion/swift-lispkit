@@ -395,6 +395,10 @@ Returns the 2-letter language code string for the language targeted by the local
 
 Returns the alpha currency code as a symbol for the currency associated with the country targeted by _locale_. If _locale_ does not target a country, `locale-currency` returns `#f`.
 
+**(locale-sunday-first? _locale_)** &nbsp;&nbsp;&nbsp; <span style="float:right;text-align:rigth;">[procedure]</span>  
+
+Returns `#t` if weeks in _locale_ start with a Sunday; `#f` is returned if Monday is the first day of a week in _locale_.
+
 
 ## Execution environment
 

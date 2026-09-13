@@ -271,12 +271,21 @@ public final class DateTimeLibrary: NativeLibrary {
     }
     var dt = components
     var tz: TimeZone
+    var locale: Locale? = nil
     switch dt {
       case .pair(.symbol(let sym), let rest):
         tz = try self.asTimeZone(.symbol(sym))
         dt = rest
       case .pair(.string(let str), let rest):
         tz = try self.asTimeZone(.string(str))
+        dt = rest
+      case .pair(.pair(let loc, .null), let rest):
+        tz = TimeZone.current
+        locale = try self.asLocale(loc)
+        dt = rest
+      case .pair(.pair(let loc, let t), let rest):
+        tz = try self.asTimeZone(t)
+        locale = try self.asLocale(loc)
         dt = rest
       default:
         tz = TimeZone.current
@@ -315,7 +324,13 @@ public final class DateTimeLibrary: NativeLibrary {
     } else if !day.isNull {
       throw RuntimeError.eval(.invalidDateTime, components)
     }
-    let dc = DateComponents(calendar: Self.calendar,
+    var calendar = Self.calendar
+    if let locale {
+      calendar = Calendar(identifier: .gregorian)
+      calendar.locale = locale
+      calendar.timeZone = tz
+    }
+    let dc = DateComponents(calendar: calendar,
                             timeZone: tz,
                             hour: hour,
                             minute: minute,

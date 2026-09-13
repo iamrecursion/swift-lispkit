@@ -107,6 +107,7 @@ public final class SystemLibrary: NativeLibrary {
     self.define(Procedure("locale-region", self.localeRegion))
     self.define(Procedure("locale-language", self.localeLanguage))
     self.define(Procedure("locale-currency", self.localeCurrency))
+    self.define(Procedure("locale-sunday-first?", self.localeSundayFirst))
     self.define(Procedure("available-currencies", self.availableCurrencies))
     self.define(Procedure("available-currency?", self.isAvailableCurrency))
     self.define(Procedure("currency-name", self.currencyName))
@@ -782,6 +783,11 @@ public final class SystemLibrary: NativeLibrary {
       return .false
     }
     return .symbol(self.context.symbols.intern(currency))
+  }
+  
+  private func localeSundayFirst(_ expr: Expr) throws -> Expr {
+    let fdow = Locale(identifier: try expr.asSymbol().identifier).firstDayOfWeek
+    return .makeBoolean(fdow == .sunday)
   }
   
   private func availableCurrencies() -> Expr {
