@@ -42,7 +42,7 @@ public final class DateTimeLibrary: NativeLibrary {
   private let dateTimeFull: Symbol
 
   // Calendar used by this library; this is hard-coded to the gregorian calendar for now.
-  static let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+  static let calendar = Calendar(identifier: .gregorian)
   
   /// Initialize time zone name styles
   public required init(in context: Context) throws {
@@ -614,9 +614,17 @@ public final class DateTimeLibrary: NativeLibrary {
   private func dateTimeWeekday(_ expr: Expr) throws -> Expr {
     return .fixnum(Int64(self.weekday(from: try self.asDateComponents(expr).weekday!)))
   }
-
-  private func dateTimeWeek(_ expr: Expr) throws -> Expr {
-    return .fixnum(Int64(try self.asDateComponents(expr).weekOfYear!))
+  
+  private func dateTimeWeek(_ expr: Expr, _ locale: Expr?) throws -> Expr {
+    let dateComponents = try self.asDateComponents(expr)
+    let locale = try self.asLocale(locale)
+    guard let date = dateComponents.date else {
+      throw RuntimeError.type(expr, expected: [NativeDateTime.type])
+    }
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.locale = locale
+    calendar.timeZone = dateComponents.timeZone ?? TimeZone.current
+    return .fixnum(Int64(calendar.component(.weekOfYear, from: date)))
   }
 
   private func dateTimeDstOffset(_ expr: Expr) throws -> Expr {
