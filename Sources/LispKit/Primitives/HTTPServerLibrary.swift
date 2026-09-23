@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it serves images and styled text.
+#if !os(watchOS)
+
 import Foundation
 import NanoHTTP
 import DynamicJSON
@@ -1479,3 +1482,5 @@ public struct LispKitHTTPServerConfig: HTTPServerConfig {
                       requestEnteringTimeout: requestEnteringTimeout)
   }
 }
+
+#endif

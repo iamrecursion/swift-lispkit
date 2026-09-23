@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — drops styled text and syntax highlighting there.
+
 import Foundation
 import MarkdownKit
 import CommandLineKit
@@ -69,11 +71,14 @@ public final class MarkdownLibrary: NativeLibrary {
   /// Support a custom `SyntaxHighlighter`
   public static var syntaxHighlighter: SyntaxHighlighter? = nil
   
+  // DIALECT: not on watchOS, where MarkdownKit's SyntaxHighlighter is a placeholder.
+  #if !os(watchOS)
   /// Configure the syntax highlighter
   public static func configure(highlightJSURL: URL, themeDirectory: URL? = nil) {
     MarkdownLibrary.syntaxHighlighter = SyntaxHighlighter(highlightJSURL: highlightJSURL,
                                                           themeDirectory: themeDirectory)
   }
+  #endif
   
   /// Initialize symbols
   public required init(in context: Context) throws {
@@ -161,7 +166,10 @@ public final class MarkdownLibrary: NativeLibrary {
     self.define(Procedure("markdown?", isMarkdown))
     self.define(Procedure("markdown=?", markdownEquals))
     self.define(Procedure("markdown->string", markdownToString))
+    // DIALECT: not on watchOS, where (lispkit styled-text) is compiled out.
+    #if !os(watchOS)
     self.define(Procedure("markdown->styled-text", markdownToStyledText))
+    #endif
     self.define(Procedure("markdown->html-doc", markdownToHtmlDoc))
     self.define(Procedure("markdown->html", markdownToHtml))
     self.define(Procedure("markdown->sxml", markdownToSxml))
@@ -174,8 +182,11 @@ public final class MarkdownLibrary: NativeLibrary {
     self.define(Procedure("text->sxml", textToSxml))
     self.define(Procedure("text->string", textToString))
     self.define(Procedure("text->raw-string", textToRawString))
+    // DIALECT: not on watchOS, where MarkdownKit's SyntaxHighlighter is a placeholder.
+    #if !os(watchOS)
     self.define(Procedure("syntax-highlighting-theme", syntaxHighlightingTheme))
     self.define(Procedure("syntax-highlighting-themes", syntaxHighlightingThemes))
+    #endif
   }
   
   private func makeCase(_ type: Expr, _ sym: Symbol, _ exprs: Expr...) -> Expr {
@@ -1253,6 +1264,8 @@ public final class MarkdownLibrary: NativeLibrary {
         attribStrGen.htmlGenerator.generate(doc: try self.internMarkdown(block: md))))
   }
   
+  // DIALECT: not on watchOS; see init.
+  #if !os(watchOS)
   private func markdownToStyledText(md: Expr, args: Arguments) throws -> Expr {
     let attribStrGen = try self.attributedStringGenerator(from: args)
     if let astr = attribStrGen.generate(doc: try self.internMarkdown(block: md)) {
@@ -1261,6 +1274,7 @@ public final class MarkdownLibrary: NativeLibrary {
       return .false
     }
   }
+  #endif
   
   private func asSizeFontColor(_ expr: Expr,
                                defaultSize: Float,
@@ -1903,6 +1917,8 @@ public final class MarkdownLibrary: NativeLibrary {
     }
   }
   
+  // DIALECT: not on watchOS; see init.
+  #if !os(watchOS)
   private func syntaxHighlightingTheme(expr: Expr) throws -> Expr {
     let nameOrContent = try expr.asString()
     // Try to load the theme
@@ -1929,6 +1945,7 @@ public final class MarkdownLibrary: NativeLibrary {
       return .false
     }
   }
+  #endif
 }
 
 open class SXMLGenerator {

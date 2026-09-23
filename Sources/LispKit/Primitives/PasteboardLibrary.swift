@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it needs AppKit and a pasteboard.
+#if !os(watchOS)
+
 import Foundation
 import AppKit
 
@@ -285,3 +288,5 @@ public final class PasteboardLibrary: NativeLibrary {
     return .void
   }
 }
+
+#endif

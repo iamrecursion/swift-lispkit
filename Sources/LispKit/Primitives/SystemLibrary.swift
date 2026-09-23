@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — gives it watchOS branches, as it assumes iOS or macOS.
+
 import Foundation
 import CLFormat
 import NanoHTTP
@@ -27,6 +29,11 @@ import UIKit
 #elseif os(macOS)
 import Cocoa
 import IOKit.ps
+#endif
+
+// DIALECT: WatchKit has the battery state on watchOS, where UIDevice is unavailable.
+#if os(watchOS)
+import WatchKit
 #endif
 
 ///
@@ -560,7 +567,10 @@ public final class SystemLibrary: NativeLibrary {
       }
       #endif
     } else {
-      #if os(iOS) || os(watchOS) || os(tvOS)
+      // DIALECT: narrowed from iOS, watchOS and tvOS, as watchOS has no UIApplication.
+      #if os(watchOS)
+      return .false
+      #elseif os(iOS) || os(tvOS)
       if path.starts(with: "/var/"),  // This is a hack! If I just would know how to avoid it...
          let url = URL(string: "shareddocuments:///private\(path)"),
          UIApplication.shared.canOpenURL(url) {
@@ -975,6 +985,20 @@ public final class SystemLibrary: NativeLibrary {
       } else {
         return .false
       }
+    // DIALECT: added for watchOS, the iOS branch with WKInterfaceDevice in place of UIDevice.
+    #elseif os(watchOS)
+      let device = WKInterfaceDevice.current()
+      let originalState = device.isBatteryMonitoringEnabled
+      device.isBatteryMonitoringEnabled = true
+      defer {
+        device.isBatteryMonitoringEnabled = originalState
+      }
+      let batteryLevel = device.batteryLevel
+      if batteryLevel >= 0.0 {
+        return .makeNumber(Double(batteryLevel))
+      } else {
+        return .false
+      }
     #elseif os(Linux)
       return .false
     #endif
@@ -1026,6 +1050,26 @@ public final class SystemLibrary: NativeLibrary {
         @unknown default:
           return .false
       }
+    // DIALECT: added for watchOS, the iOS branch with WKInterfaceDevice in place of UIDevice.
+    #elseif os(watchOS)
+      let device = WKInterfaceDevice.current()
+      let originalState = device.isBatteryMonitoringEnabled
+      device.isBatteryMonitoringEnabled = true
+      defer {
+        device.isBatteryMonitoringEnabled = originalState
+      }
+      switch device.batteryState {
+        case .charging:
+          return .symbol(context.symbols.intern("charging"))
+        case .full:
+          return .symbol(context.symbols.intern("full"))
+        case .unplugged:
+          return .symbol(context.symbols.intern("discharging"))
+        case .unknown:
+          return .symbol(context.symbols.intern("unknown"))
+        @unknown default:
+          return .false
+      }
     #elseif os(Linux)
       return .false
     #endif
@@ -1060,6 +1104,9 @@ public final class SystemLibrary: NativeLibrary {
       return .makeString("macOS")
     #elseif os(iOS)
       return .makeString(UIDevice.current.userInterfaceIdiom == .pad ? "iPadOS" : "iOS")
+    // DIALECT: added for watchOS, which upstream has no branch for.
+    #elseif os(watchOS)
+      return .makeString("watchOS")
     #elseif os(Linux)
       return .makeString("Linux")
     #endif
@@ -1110,7 +1157,10 @@ public final class SystemLibrary: NativeLibrary {
   }
   
   private func openUrl(_ expr: Expr) throws -> Expr {
-    #if os(iOS) || os(watchOS) || os(tvOS)
+    // DIALECT: narrowed from iOS, watchOS and tvOS, as watchOS has no UIApplication.
+    #if os(watchOS)
+    return .false
+    #elseif os(iOS) || os(tvOS)
     DispatchQueue.main.async {
       do {
         UIApplication.shared.open(try expr.asURL())

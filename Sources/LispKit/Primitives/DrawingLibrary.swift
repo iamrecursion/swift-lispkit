@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as (lispkit draw) needs Cocoa and AppKit.
+#if !os(watchOS)
+
 import Foundation
 import Cocoa
 import AppKit
@@ -2619,3 +2622,5 @@ public final class NativeImage: AnyNativeObject<NSImage> {
             .makeNumber(self.value.size.height)]
   }
 }
+
+#endif

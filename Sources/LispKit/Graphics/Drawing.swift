@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it needs Cocoa, AppKit and PDFKit.
+#if !os(watchOS)
+
 import CoreGraphics
 import Cocoa
 import AppKit
@@ -585,3 +588,5 @@ public enum ObjectLocation {
   case position(NSPoint)
   case boundingBox(NSRect)
 }
+
+#endif

@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it is built on PDFKit.
+#if !os(watchOS)
+
 import Foundation
 import CoreGraphics
 import PDFKit
@@ -3307,3 +3310,5 @@ extension CGPDFObjectRef {
     }
   }
 }
+
+#endif

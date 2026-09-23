@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — gives it its own list of native libraries.
+
 ///
 /// Registry of all native libraries. Libraries defined outside of the LispKit
 /// framework need to be registered with the function `register`. This needs to happen
@@ -25,7 +27,52 @@
 ///
 public struct LibraryRegistry {
   
-  #if os(iOS) || os(watchOS) || os(tvOS)
+  // DIALECT: added for watchOS. The iOS list without the libraries compiled out there: the drawing,
+  // imaging, styled text, PDF, pasteboard, Vision, OAuth and HTTP server libraries.
+  #if os(watchOS)
+  public private(set) static var nativeLibraries: [NativeLibrary.Type] = [
+    ControlFlowLibrary.self,
+    CoreLibrary.self,
+    SystemLibrary.self,
+    KeychainLibrary.self,
+    DebugLibrary.self,
+    DateTimeLibrary.self,
+    BoxLibrary.self,
+    HashTableLibrary.self,
+    DynamicControlLibrary.self,
+    MathLibrary.self,
+    ListLibrary.self,
+    TypeLibrary.self,
+    VectorLibrary.self,
+    GrowableVectorLibrary.self,
+    BitsetLibrary.self,
+    EnumLibrary.self,
+    RecordLibrary.self,
+    BytevectorLibrary.self,
+    SerializeLibrary.self,
+    CharLibrary.self,
+    CharSetLibrary.self,
+    StringLibrary.self,
+    FormatLibrary.self,
+    RegexpLibrary.self,
+    PortLibrary.self,
+    BaseLibrary.self,
+    LocationLibrary.self,
+    InternalLibrary.self,
+    MarkdownLibrary.self,
+    SQLiteLibrary.self,
+    ZipArchiveLibrary.self,
+    TarArchiveLibrary.self,
+    CryptoLibrary.self,
+    ThreadLibrary.self,
+    ThreadFutureLibrary.self,
+    SharedQueueLibrary.self,
+    URLLibrary.self,
+    JSONLibrary.self,
+    JSONSchemaLibrary.self,
+    HTTPLibrary.self
+  ]
+  #elseif os(iOS) || os(tvOS)
   public private(set) static var nativeLibraries: [NativeLibrary.Type] = [
     ControlFlowLibrary.self,
     CoreLibrary.self,

@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — refuses policies and make-password there, and fixes two bugs.
+
 import Foundation
 import KeychainAccess
 
@@ -120,7 +122,12 @@ public final class KeychainLibrary: NativeLibrary {
       case self.whenUnlockedThisDeviceOnly:
         return .whenUnlockedThisDeviceOnly
       case self.afterFirstUnlockThisDeviceOnly:
+        // DIALECT: upstream returns .afterFirstUnlock, dropping this-device-only; fixed on watchOS.
+        #if os(watchOS)
+        return .afterFirstUnlockThisDeviceOnly
+        #else
         return .afterFirstUnlock
+        #endif
       #if !targetEnvironment(macCatalyst)
       case self.alwaysThisDeviceOnly:
         return .alwaysThisDeviceOnly
@@ -225,6 +232,37 @@ public final class KeychainLibrary: NativeLibrary {
     return res
   }
   
+  // DIALECT: added for watchOS, which lacks LocalAuthentication. Applies the accessibility argument
+  // of make-keychain and keychain-set! as upstream does, except that a prompt is checked and
+  // ignored, and an authentication policy is an error rather than silently dropped.
+  #if os(watchOS)
+  private func watchAccessibility(_ acc: Expr, of keychain: Keychain) throws -> Keychain {
+    guard acc.isTrue && !acc.isNull else {
+      return keychain
+    }
+    switch acc {
+      case .pair(let prompt, .null):
+        if prompt.isTrue && !prompt.isNull {
+          _ = try prompt.asString()
+        }
+        return keychain
+      case .pair(let prompt, .pair(let ac, .null)):
+        if prompt.isTrue && !prompt.isNull {
+          _ = try prompt.asString()
+        }
+        if ac.isTrue && !ac.isNull {
+          return keychain.accessibility(try self.accessibility(from: ac))
+        }
+        return keychain
+      case .pair(_, .pair(_, let policy)):
+        throw RuntimeError.custom("error", "authentication policies are not supported on watchOS",
+                                  [policy])
+      default:
+        return keychain.accessibility(try self.accessibility(from: acc))
+    }
+  }
+  #endif
+
   private func isKeychain(_ expr: Expr) -> Expr {
     guard case .object(let obj) = expr, obj is NativeKeychain else {
       return .false
@@ -249,6 +287,10 @@ public final class KeychainLibrary: NativeLibrary {
     } else {
       keychain = Keychain()
     }
+    // DIALECT: watchOS has no authentication prompts or policies; see watchAccessibility.
+    #if os(watchOS)
+    keychain = try self.watchAccessibility(acc, of: keychain)
+    #else
     if acc.isTrue && !acc.isNull {
       switch acc {
         case .pair(let prompt, .null):
@@ -272,8 +314,14 @@ public final class KeychainLibrary: NativeLibrary {
           keychain = keychain.accessibility(try self.accessibility(from: acc))
       }
     }
+    #endif
     if !sync.isNull {
+      // DIALECT: upstream passes acc.isTrue, ignoring sync; fixed on watchOS.
+      #if os(watchOS)
+      keychain = keychain.synchronizable(sync.isTrue)
+      #else
       keychain = keychain.synchronizable(acc.isTrue)
+      #endif
     }
     return .object(NativeKeychain(keychain: keychain))
   }
@@ -406,6 +454,10 @@ public final class KeychainLibrary: NativeLibrary {
     if comment.isTrue && !comment.isNull {
       keychain = keychain.comment(try comment.asString())
     }
+    // DIALECT: watchOS has no authentication prompts or policies; see watchAccessibility.
+    #if os(watchOS)
+    keychain = try self.watchAccessibility(acc, of: keychain)
+    #else
     if acc.isTrue && !acc.isNull {
       switch acc {
         case .pair(let prompt, .null):
@@ -429,8 +481,14 @@ public final class KeychainLibrary: NativeLibrary {
           keychain = keychain.accessibility(try self.accessibility(from: acc))
       }
     }
+    #endif
     if !sync.isNull {
+      // DIALECT: upstream passes acc.isTrue, ignoring sync; fixed on watchOS.
+      #if os(watchOS)
+      keychain = keychain.synchronizable(sync.isTrue)
+      #else
       keychain = keychain.synchronizable(acc.isTrue)
+      #endif
     }
     return keychain
   }
@@ -510,11 +568,17 @@ public final class KeychainLibrary: NativeLibrary {
   }
   
   private func makePassword() throws -> Expr {
+    // DIALECT: watchOS lacks SecCreateSharedWebCredentialPassword. An error, not #f, as the
+    // documentation promises a password.
+    #if os(watchOS)
+    throw RuntimeError.custom("error", "passwords cannot be generated on watchOS", [])
+    #else
     if let password = SecCreateSharedWebCredentialPassword() {
       return .makeString(password as String)
     } else {
       return .false
     }
+    #endif
   }
 }
 

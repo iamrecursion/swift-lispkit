@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there with Barcode, which it is built on.
+#if !os(watchOS)
+
 import Foundation
 
 public final class DrawBarcodeLibrary: NativeLibrary {
@@ -262,3 +265,5 @@ public final class DrawBarcodeLibrary: NativeLibrary {
     return .object(image)
   }
 }
+
+#endif

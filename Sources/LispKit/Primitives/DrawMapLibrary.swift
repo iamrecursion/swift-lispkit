@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it needs (lispkit draw) and MapKit extras.
+#if !os(watchOS)
+
 import Foundation
 import MapKit
 
@@ -504,3 +507,5 @@ class LatLongSpan: NativeObject {
     return Self.type
   }
 }
+
+#endif

@@ -6,6 +6,9 @@
 //  Copyright © 2022 ObjectHub. All rights reserved.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as its fonts come from (lispkit draw).
+#if !os(watchOS)
+
 import Foundation
 #if os(iOS) || os(watchOS) || os(tvOS)
 import UIKit
@@ -2066,3 +2069,5 @@ public final class ParagraphStyle: AnyNativeObject<NSMutableParagraphStyle> {
     return ParagraphStyle.type
   }
 }
+
+#endif

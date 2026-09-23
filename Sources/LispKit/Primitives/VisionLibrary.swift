@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it needs Vision APIs watchOS lacks.
+#if !os(watchOS)
+
 import Foundation
 import Vision
 
@@ -704,3 +707,5 @@ public struct RecognizedText: CustomExpr {
             .makeString(self.recognized.string.truncated(limit: 32))]
   }
 }
+
+#endif

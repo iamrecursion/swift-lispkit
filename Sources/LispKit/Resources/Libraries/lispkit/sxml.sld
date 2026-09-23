@@ -32,6 +32,8 @@
 ;;; Adaptation to LispKit
 ;;;   Copyright © 2020-2024 Matthias Zenger. All rights reserved.
 
+;; DIALECT: modified for watchOS — loads without (lispkit styled-text), which is not there.
+
 (define-library (lispkit sxml)
   
   (export display-sxml
@@ -44,10 +46,19 @@
           html-tag->string)
   
   (import (lispkit base)
-          (lispkit styled-text)
           (lispkit date-time)
           (lispkit markdown))
   
+  ;; DIALECT: (lispkit styled-text) was imported above. Where it is missing, as on watchOS, there
+  ;; is no styled text to render, so nothing satisfies styled-text?.
+  (cond-expand
+    ((library (lispkit styled-text))
+      (import (lispkit styled-text)))
+    (else
+      (begin
+        (define (styled-text? x) #f)
+        (define (styled-text-string x) (error "styled text is unavailable" x)))))
+
   (begin
     
     (define (display-to-string x)

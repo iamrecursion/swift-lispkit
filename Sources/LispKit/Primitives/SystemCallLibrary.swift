@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as watchOS cannot spawn processes.
+#if !os(watchOS)
+
 import Foundation
 
 ///
@@ -156,3 +159,5 @@ public final class SystemCallLibrary: NativeLibrary {
     return .fixnum(Int64(proc.isRunning ? -1 : proc.terminationStatus))
   }
 }
+
+#endif

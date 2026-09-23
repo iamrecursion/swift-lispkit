@@ -6,6 +6,9 @@
 //  Copyright © 2024 ObjectHub. All rights reserved.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as OAuth2 is not linked there.
+#if !os(watchOS)
+
 import Foundation
 import OAuth2
 
@@ -214,3 +217,5 @@ public struct DeviceAuthCodes {
 	public let expiresIn: Int
   public let interval: Double
 }
+
+#endif

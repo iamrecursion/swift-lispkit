@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it needs AppKit.
+#if !os(watchOS)
+
 import Foundation
 import CoreGraphics
 import AppKit
@@ -88,3 +91,5 @@ public final class Transformation: NativeObject {
     self.affineTransform.invert()
   }
 }
+
+#endif

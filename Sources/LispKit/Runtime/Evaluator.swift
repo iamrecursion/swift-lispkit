@@ -18,6 +18,8 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — does not abort OAuth requests there.
+
 import Foundation
 
 ///
@@ -119,7 +121,10 @@ public final class Evaluator: TrackedObject {
     // Abort evaluation
     _ = self.mainThread.value.abort()
     // Clean up
+    // DIALECT: OAuth2 is not linked on watchOS, so there are no requests to abort.
+    #if !os(watchOS)
     HTTPOAuthLibrary.authRequestManager.abortAll(in: self.context)
+    #endif
   }
   
   // Create evaluation threads

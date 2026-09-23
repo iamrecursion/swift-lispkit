@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as OAuth2 is not linked there.
+#if !os(watchOS)
+
 import Foundation
 import OAuth2
 
@@ -1285,3 +1288,5 @@ extension OAuth2Error {
   }
 }
 
+
+#endif

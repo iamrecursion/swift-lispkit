@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it is built on CoreImage.
+#if !os(watchOS)
+
 import Foundation
 import CoreImage
 #if os(iOS) || os(watchOS) || os(tvOS)
@@ -1333,3 +1336,5 @@ public struct AbstractImage: CustomExpr {
               .makeString(self.ciFilter.name)]
     }
   }
+
+#endif

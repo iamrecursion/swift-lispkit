@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there with Transformation, which it depends on.
+#if !os(watchOS)
+
 import Foundation
 import CoreGraphics
 #if os(iOS) || os(watchOS) || os(tvOS)
@@ -668,4 +671,6 @@ public typealias Font = UIFont
 #elseif os(macOS)
 public typealias BezierPath = NSBezierPath
 public typealias Font = NSFont
+#endif
+
 #endif

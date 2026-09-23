@@ -18,6 +18,9 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it renders pages with WebKit.
+#if !os(watchOS)
+
 import Foundation
 import WebKit
 
@@ -1082,3 +1085,5 @@ internal class PageDimensions: CustomStringConvertible {
            ", width = \(widthValue ?? -1.0), error = \(errorValue?.localizedDescription ?? "none")}"
   }
 }
+
+#endif

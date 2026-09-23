@@ -6,6 +6,9 @@
 //  Copyright © 2024 ObjectHub. All rights reserved.
 //
 
+// DIALECT: modified for watchOS — compiled out there, as it generates barcodes with CoreImage.
+#if !os(watchOS)
+
 import Foundation
 #if os(iOS) || os(watchOS) || os(tvOS)
 import UIKit
@@ -385,3 +388,5 @@ struct Code128Barcode: Barcodable {
     ]
   }
 }
+
+#endif

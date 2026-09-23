@@ -35,13 +35,25 @@
 //  limitations under the License.
 //
 
+// DIALECT: modified for watchOS — adds the platform, does not link OAuth2 there, takes MarkdownKit
+// and CLFormat from Dialect's forks of them, and bundles the Scheme libraries.
+
 import PackageDescription
+
+// DIALECT: added for watchOS. Every SwiftPM platform except watchOS, for the dependencies that are
+// not linked there. The sources guard those imports with `#if !os(watchOS)`, so this list must stay
+// the exact complement of watchOS: a platform missing here would import a module the manifest never
+// links. Tools-version 5.9 accepts all eleven.
+let everywhereButWatchOS: [Platform] = [.macOS, .macCatalyst, .iOS, .tvOS, .visionOS, .driverKit,
+                                        .linux, .windows, .android, .wasi, .openbsd]
 
 let package = Package(
   name: "LispKit",
   platforms: [
     .macOS(.v14),
-    .iOS(.v17)
+    .iOS(.v17),
+    // DIALECT: added for watchOS.
+    .watchOS(.v10)
   ],
   products: [
     .library(name: "LispKit", targets: ["LispKit"]),
@@ -51,10 +63,13 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/objecthub/swift-numberkit.git", from: "2.6.1"),
     // .package(url: "https://github.com/objecthub/swift-markdownkit.git", from: "1.4.1"),
-    .package(url: "https://github.com/objecthub/swift-markdownkit.git", branch: "master"),
+    // DIALECT: Dialect's fork, a sibling submodule, which builds for watchOS.
+    .package(path: "../swift-markdownkit"),
     .package(url: "https://github.com/objecthub/swift-commandlinekit.git", from: "1.1.1"),
     .package(url: "https://github.com/objecthub/swift-sqliteexpress.git", from: "1.0.3"),
-    .package(url: "https://github.com/objecthub/swift-clformat.git", from: "1.2.1"),
+    // DIALECT: Dialect's fork, a sibling submodule, which takes MarkdownKit from the same fork as
+    // this package does, so every path to MarkdownKit reaches one package.
+    .package(path: "../swift-clformat"),
     .package(url: "https://github.com/objecthub/swift-dynamicjson.git", branch: "main"),
     .package(url: "https://github.com/objecthub/swift-nanohttp.git", from: "1.0.1"),
     .package(url: "https://github.com/weichsel/ZIPFoundation.git", from: "0.9.20"),
@@ -75,18 +90,30 @@ let package = Package(
               .product(name: "NanoHTTP", package: "swift-nanohttp"),
               .product(name: "ZIPFoundation", package: "ZIPFoundation"),
               .product(name: "SWCompression", package: "SWCompression"),
-              .product(name: "OAuth2", package: "OAuth2"),
+              // DIALECT: not linked on watchOS, where it has no authorizer and does not build.
+              .product(name: "OAuth2", package: "OAuth2",
+                       condition: .when(platforms: everywhereButWatchOS)),
               .product(name: "CBORCoding", package: "CBORCoding"),
               .product(name: "KeychainAccess", package: "KeychainAccess"),
               .product(name: "Atomics", package: "swift-atomics")
             ],
             exclude: [
               "Info.plist",
-              "Resources",
+              // DIALECT: was all of "Resources". The rest of it is bundled; see `resources`.
+              "Resources/Assets",
+              "Resources/Examples",
+              "Resources/Tests",
               "Graphics/Drawing_iOS.swift",
               "Graphics/Transformation_iOS.swift",
               "Primitives/DrawingLibrary_iOS.swift",
               "Primitives/PasteboardLibrary_iOS.swift"
+            ],
+            // DIALECT: added. Bundles the libraries and prelude for Runtime/PackageResources.swift.
+            // Assets stays out, at 61 MB. Copied one by one, as SwiftPM copies an excluded
+            // directory that is inside a copied one.
+            resources: [
+              .copy("Resources/Libraries"),
+              .copy("Resources/Prelude.scm")
             ]),
     .target(name: "LispKitTools",
             dependencies: [
