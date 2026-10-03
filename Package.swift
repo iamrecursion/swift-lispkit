@@ -52,8 +52,9 @@ let package = Package(
   platforms: [
     .macOS(.v14),
     .iOS(.v17),
-    // DIALECT: added for watchOS.
-    .watchOS(.v10)
+    // DIALECT: added for watchOS, at Dialect's own minimum: arm64 watches only, as LispKit assumes
+    // a 64-bit `Int` in places.
+    .watchOS("27.0")
   ],
   products: [
     .library(name: "LispKit", targets: ["LispKit"]),
